@@ -58,14 +58,26 @@ mkdir -p "$SCRIPT_DIR/wp/wp-content"
 chown -R 33:33 "$SCRIPT_DIR/wp/wp-content"
 
 # ── 6. Launch ────────────────────────────────────────────────────
+# Use whichever Compose is present: v2 plugin ("docker compose") or
+# the v1 standalone ("docker-compose", which cloud-init installs via packages).
+if docker compose version >/dev/null 2>&1; then
+  DC="docker compose"
+elif command -v docker-compose >/dev/null 2>&1; then
+  DC="docker-compose"
+else
+  echo "Error: neither 'docker compose' nor 'docker-compose' is available" >&2
+  exit 1
+fi
+log "Using Compose command: $DC"
+
 log "Starting Docker Compose stack..."
 cd "$SCRIPT_DIR"
-docker compose down --remove-orphans 2>/dev/null || true
-docker compose up -d
+$DC down --remove-orphans 2>/dev/null || true
+$DC up -d
 
 log ""
 log "  Stack is starting up. Check logs with:"
-log "    docker compose logs -f"
+log "    $DC logs -f"
 log ""
 log "  Endpoints (after ~30s for MySQL init):"
 log "    HTTP  : http://localhost"
