@@ -76,10 +76,9 @@ cloud-init/                # user-data/meta-data + ISO builder for local VM test
 
 ### Use of AI
 
-AI (Claude / Claude Code) was used as a reviewed coding partner. Specifically it
-helped **fix the Docker Compose v1/v2 compatibility** in `setup.sh` (auto-detecting
-the available command), **fix the nginx location priority** so phpMyAdmin's assets
-route through the proxy instead of the WordPress root, **remove the committed
-`.env`** in favour of a git-ignored file + template, and **draft this README**. All
-service choices and the compose design were made and verified by us; AI sped up
-debugging and cleanup, not the design decisions.
+AI (Claude / Claude Code) was used as a reviewed coding partner. It helped with
+**general debugging**, **integrating the scripts we developed separately** into the
+provisioning flow (e.g. `setup.sh` bringing the Compose stack up), and
+**documentation** — drafting this README and commenting the code. All service
+choices and the Compose design were made and verified by us; AI sped up debugging
+and cleanup, not the design decisions.
